@@ -491,6 +491,8 @@ Square Medical Billing Website
 
         // For reply functionality
         reply_to: formData.email
+      }, {
+        publicKey: 'r8Zz5EtOmdkEzuKzx'
       }) 
         .then(function(response) {
           console.log('Email sent successfully:', response);
@@ -531,11 +533,13 @@ Square Medical Billing Website
           }, 300);
 
         }, function(error) {
-          console.error('Email send failed:', error);
+          const status = error && typeof error.status !== 'undefined' ? error.status : 'unknown';
+          const reason = error && error.text ? error.text : 'Unknown error';
+          console.error('Email send failed:', { status: status, reason: reason, raw: error });
 
           $submitBtn.prop('disabled', false).html(originalText);
-          $status.html('<div style="color:#ef4444;">❌ Failed to send. Please try again or email us directly.</div>');
-          showToast('Failed to send message. Please try again.', 'error');
+          $status.html(`<div style="color:#ef4444;">❌ Failed to send (status: ${status}). Please try again or email us directly.</div>`);
+          showToast(`Failed to send message (${status}). Please try again.`, 'error');
         });
     });
   }
