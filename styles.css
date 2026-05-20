@@ -1145,15 +1145,358 @@ footer::before {
 }
 
 /* ============================================
-   RESPONSIVE
+   RESPONSIVE - COMPREHENSIVE MOBILE SUPPORT
    ============================================ */
-@media (max-width: 768px) {
-  .hero { min-height: 75vh; }
-  .process-step::after { display: none; }
-  .card-dark { margin-bottom: 1rem; }
-  .navbar-brand { font-size: 0.9rem; }
-  .floating-orb { display: none; }
+
+/* Touch-friendly defaults for mobile */
+@media (hover: none) and (pointer: coarse) {
+  /* Disable 3D tilt/magnetic effects on touch devices — they cause jank */
+  .service-card,
+  .digital-card,
+  .btn-cyan,
+  .btn-outline-cyan {
+    transform: none !important;
+  }
+
+  .service-card:hover .display-4 {
+    transform: none;
+  }
+
+  .card-dark:hover {
+    transform: translateY(-4px);
+  }
+
+  .hero-img:hover {
+    transform: none;
+  }
+
+  .highlight:hover {
+    transform: translateX(3px);
+  }
+
+  /* Larger tap targets */
+  .nav-link {
+    padding: 0.75rem 1rem !important;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-cyan,
+  .btn-outline-cyan {
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Remove hover-only effects */
+  .card-dark::after {
+    display: none;
+  }
 }
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .hero { min-height: 80vh; }
+
+  .hero h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .service-card {
+    min-height: 220px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  body {
+    -webkit-tap-highlight-color: transparent;
+    perspective: none;
+  }
+
+  .hero {
+    min-height: 70vh;
+    padding-top: 2rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
+    letter-spacing: -0.5px;
+  }
+
+  .hero .lead {
+    font-size: 0.95rem;
+    padding: 0 0.5rem;
+  }
+
+  .about-hero {
+    min-height: 40vh;
+  }
+
+  /* Navbar */
+  .navbar {
+    padding: 0.5rem 0;
+  }
+
+  .navbar-brand {
+    font-size: 0.85rem;
+  }
+
+  .navbar-brand img {
+    height: 36px !important;
+  }
+
+  .navbar-collapse {
+    background: rgba(5, 8, 20, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 0 0 16px 16px;
+    padding: 0.5rem 1rem 1rem;
+    margin-top: 0.5rem;
+    border: 1px solid var(--border);
+    border-top: none;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 0.8rem 1rem !important;
+    border-radius: 8px;
+    margin: 0.15rem 0;
+  }
+
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    background: rgba(6, 182, 212, 0.1);
+  }
+
+  /* Stats */
+  .stat-number {
+    font-size: 1.8rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+  }
+
+  .stat-item {
+    padding: 1rem 0.5rem;
+  }
+
+  /* Cards */
+  .card-dark {
+    margin-bottom: 0.75rem;
+    border-radius: 16px;
+  }
+
+  .service-card {
+    min-height: auto;
+    padding: 1.25rem !important;
+  }
+
+  .service-card .display-4 {
+    font-size: 2.2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .service-card h5 {
+    font-size: 1.05rem;
+  }
+
+  .service-card p {
+    font-size: 0.85rem;
+  }
+
+  /* Process steps */
+  .process-step::after { display: none; }
+
+  .process-number {
+    width: 42px;
+    height: 42px;
+    font-size: 0.9rem;
+  }
+
+  /* Hero image */
+  .hero-img {
+    border-radius: 14px;
+    margin-top: 1.5rem;
+  }
+
+  /* Highlight boxes */
+  .highlight {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Buttons */
+  .btn-cyan,
+  .btn-outline-cyan {
+    padding: 0.75rem 1.8rem;
+    font-size: 0.9rem;
+    border-radius: 12px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 1.5rem 0 !important;
+  }
+
+  footer .container {
+    padding: 0 1rem;
+  }
+
+  footer .row > div {
+    padding: 0.25rem 0;
+  }
+
+  footer small {
+    font-size: 0.72rem;
+    line-height: 1.5;
+    display: block;
+  }
+
+  footer .d-flex.gap-4 {
+    gap: 1.5rem !important;
+  }
+
+  footer .hover-link {
+    font-size: 0.8rem;
+  }
+
+  /* Contact info */
+  .contact-info-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem;
+  }
+
+  .contact-info-item {
+    padding: 0.75rem;
+  }
+
+  /* FAQ */
+  summary {
+    padding: 0.9rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  details p {
+    padding: 0 1rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  /* Wave */
+  .wave-bottom svg {
+    height: 40px;
+  }
+
+  /* Floating orbs - hide on mobile for performance */
+  .floating-orb { display: none; }
+
+  /* Badge */
+  .badge-glow {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  /* Section spacing */
+  .py-5 {
+    padding-top: 2rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  /* Counter numbers on about page */
+  .counter-number {
+    font-size: 2rem;
+  }
+
+  /* Digital cards */
+  .digital-card {
+    padding: 0.75rem !important;
+  }
+
+  .digital-card h6 {
+    font-size: 0.8rem;
+  }
+
+  /* Reduce particle count visually */
+  .particles {
+    opacity: 0.5;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .hero {
+    min-height: 65vh;
+    padding-top: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+
+  .hero .lead {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .stat-number {
+    font-size: 1.5rem;
+  }
+
+  .stat-label {
+    font-size: 0.7rem;
+  }
+
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+
+  .btn-cyan,
+  .btn-outline-cyan {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.85rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  footer small {
+    font-size: 0.65rem;
+  }
+
+  .card-dark {
+    border-radius: 12px;
+  }
+
+  .service-card .display-4 {
+    font-size: 1.8rem;
+  }
+
+  /* Safe area for notched phones */
+  .navbar {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  footer {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0)) !important;
+  }
+
+  /* Toast position for small screens */
+  .toast-container {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .toast-msg {
+    max-width: 100%;
+  }
+}
+
+/* Desktop min-height restore */
 
 @media (min-width: 768px) {
   .hero { min-height: 90vh; }

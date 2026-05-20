@@ -16,8 +16,34 @@ $(function(){
     });
   }
 
+  // ===== BFCACHE RESTORE — force all elements visible =====
+  function restorePage() {
+    // Hide preloader in case it's stuck
+    hidePreloader();
+
+    // Force all reveal elements to be visible
+    $('.reveal, .reveal-left, .reveal-right, .reveal-scale').addClass('active');
+
+    // Force all cards/service-cards visible (entrance animation may have left opacity:0)
+    $('.service-card, .card-dark').css({
+      opacity: 1,
+      transform: 'none'
+    });
+
+    // Re-run scroll reveal check
+    setTimeout(checkReveal, 50);
+  }
+
+  // ===== PRELOADER SAFETY TIMEOUT =====
+  // Auto-hide preloader after 3s max, in case window.load never fires (BFCache)
+  var preloaderSafetyTimer = setTimeout(function() {
+    hidePreloader();
+  }, 3000);
+
   // ===== TOAST NOTIFICATION SYSTEM =====
-  function showToast(message, type = 'info', duration = 4000) {
+  function showToast(message, type, duration) {
+    type = type || 'info';
+    duration = duration || 4000;
     let $container = $('.toast-container');
     if (!$container.length) {
       $container = $('<div class="toast-container"></div>');
@@ -31,18 +57,17 @@ $(function(){
       warning: '⚠️'
     };
 
-    const $toast = $(`
-      <div class="toast-msg ${type}">
-        <span>${icons[type] || 'ℹ️'}</span>
-        <span>${message}</span>
-      </div>
-    `);
+    // Build toast safely to prevent XSS — use .text() for user-facing message
+    var $toast = $('<div class="toast-msg"></div>').addClass(type);
+    var $icon = $('<span></span>').text(icons[type] || 'ℹ️');
+    var $msg = $('<span></span>').text(message);
+    $toast.append($icon).append($msg);
 
     $container.append($toast);
 
-    setTimeout(() => {
+    setTimeout(function() {
       $toast.css('animation', 'toastSlideOut 0.4s ease forwards');
-      setTimeout(() => $toast.remove(), 400);
+      setTimeout(function() { $toast.remove(); }, 400);
     }, duration);
   }
 
@@ -97,7 +122,11 @@ $(function(){
     const $particles = $('<div class="particles"></div>');
     $('body').prepend($particles);
 
-    for (let i = 0; i < 40; i++) {
+    // Reduce particles on mobile for performance
+    var isMobile = window.matchMedia('(max-width: 768px)').matches;
+    var particleCount = isMobile ? 15 : 40;
+
+    for (let i = 0; i < particleCount; i++) {
       const $particle = $('<div class="particle"></div>');
       $particle.css({
         left: Math.random() * 100 + '%',
@@ -199,14 +228,41 @@ $(function(){
 
   // ===== PRELOADER =====
   $(window).on('load', function() {
+    clearTimeout(preloaderSafetyTimer);
     hidePreloader();
     setTimeout(checkReveal, 200);
   });
 
-  $(window).on('pageshow', function(event) {
-    if (event.originalEvent && event.originalEvent.persisted) {
-      hidePreloader();
-      setTimeout(checkReveal, 50);
+  // ===== BFCACHE: Use native addEventListener to avoid jQuery originalEvent issues =====
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      restorePage();
+    }
+  });
+
+  // ===== VISIBILITY CHANGE FALLBACK =====
+  // Some mobile browsers don't fire pageshow reliably on BFCache restore
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+      // Small delay to let the page settle after becoming visible
+      setTimeout(function() {
+        hidePreloader();
+        // Check if reveal elements are still hidden (BFCache issue)
+        var hasHiddenReveals = false;
+        $('.reveal, .reveal-left, .reveal-right, .reveal-scale').each(function() {
+          if (!$(this).hasClass('active') && $(this).is(':visible')) {
+            var elementTop = $(this).offset().top;
+            var windowBottom = $(window).scrollTop() + $(window).height();
+            if (elementTop < windowBottom) {
+              hasHiddenReveals = true;
+              return false; // break
+            }
+          }
+        });
+        if (hasHiddenReveals) {
+          restorePage();
+        }
+      }, 100);
     }
   });
 
@@ -339,7 +395,7 @@ $(function(){
       $field.next('.form-error').remove();
 
       if (error) {
-        const $error = $(`<div class="form-error">❌ ${error}</div>`);
+        var $error = $('<div class="form-error"></div>').text('❌ ' + error);
         $field.after($error);
       }
     }
