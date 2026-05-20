@@ -15,7 +15,7 @@ export function Footer() {
             <h4 className="text-sm font-black tracking-[0.1em] text-white uppercase">
               SQUARE MEDICAL BILLING
             </h4>
-            <p className="text-[0.6rem] font-bold tracking-[0.2em] text-white/80 uppercase">
+            <p className="text-[0.5rem] font-bold tracking-[0.18em] text-white/80 uppercase">
               TRUST-GROW-SUCCESS
             </p>
           </div>

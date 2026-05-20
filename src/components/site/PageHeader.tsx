@@ -4,7 +4,7 @@ export function PageHeader({ title, subtitle }: { title: string; subtitle?: stri
       <h1 className="bg-gradient-to-br from-white to-gray-400 bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
         {title}
       </h1>
-      {subtitle && <p className="mt-4 text-lg text-gray-300">{subtitle}</p>}
+      {subtitle && <p className="page-tagline mt-4 text-sm text-gray-300 md:text-base">{subtitle}</p>}
     </section>
   );
 }

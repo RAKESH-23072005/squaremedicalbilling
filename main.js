@@ -5,6 +5,17 @@
 
 $(function(){
 
+  function hidePreloader() {
+    const $preloader = $('#preloader');
+    if (!$preloader.length) {
+      return;
+    }
+
+    $preloader.stop(true, true).fadeOut(250, function() {
+      $(this).remove();
+    });
+  }
+
   // ===== TOAST NOTIFICATION SYSTEM =====
   function showToast(message, type = 'info', duration = 4000) {
     let $container = $('.toast-container');
@@ -188,10 +199,15 @@ $(function(){
 
   // ===== PRELOADER =====
   $(window).on('load', function() {
-    $('#preloader').fadeOut(600, function() {
-      $(this).remove();
-    });
+    hidePreloader();
     setTimeout(checkReveal, 200);
+  });
+
+  $(window).on('pageshow', function(event) {
+    if (event.originalEvent && event.originalEvent.persisted) {
+      hidePreloader();
+      setTimeout(checkReveal, 50);
+    }
   });
 
   // ===== SERVICE CARD ENTRANCE =====

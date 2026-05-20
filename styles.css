@@ -1163,9 +1163,14 @@ footer::before {
    UTILITIES
    ============================================ */
 .tiny {
-  font-size: 0.65rem;
-  letter-spacing: 2px;
+  font-size: 0.55rem;
+  letter-spacing: 1.6px;
   text-transform: uppercase;
+}
+
+.page-tagline {
+  font-size: 0.95rem !important;
+  line-height: 1.55;
 }
 
 .display-4 { font-size: 2.5rem; }

@@ -56,7 +56,7 @@ export const AuroraHero = ({
         <h1 className="max-w-3xl bg-gradient-to-br from-white to-gray-400 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent sm:text-5xl sm:leading-tight md:text-6xl md:leading-tight">
           {title}
         </h1>
-        <p className="my-6 max-w-xl text-center text-base leading-relaxed text-gray-300 md:text-lg md:leading-relaxed">
+        <p className="page-tagline my-6 max-w-xl text-center text-sm leading-relaxed text-gray-300 md:text-base md:leading-relaxed">
           {subtitle}
         </p>
         <Link to={ctaTo}>

@@ -141,4 +141,9 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+
+  .page-tagline {
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
 }

@@ -21,7 +21,7 @@ export function Navbar() {
           <span className="text-sm font-black tracking-[0.1em] text-white uppercase">
             SQUARE MEDICAL BILLING
           </span>
-          <span className="text-[0.6rem] font-bold tracking-[0.3em] text-white/90 uppercase">
+          <span className="text-[0.5rem] font-bold tracking-[0.24em] text-white/90 uppercase">
             TRUST-GROW-SUCCESS
           </span>
         </Link>
