@@ -1,6 +1,6 @@
 import { Stars } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import {
   useMotionTemplate,
@@ -28,6 +28,7 @@ export const AuroraHero = ({
   ctaTo = "/contact",
 }: AuroraHeroProps) => {
   const color = useMotionValue(COLORS_TOP[0]);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     animate(color, COLORS_TOP, {
@@ -37,6 +38,17 @@ export const AuroraHero = ({
       repeatType: "mirror",
     });
   }, [color]);
+
+  useEffect(() => {
+    const updateDeviceMode = () => {
+      setIsMobile(window.matchMedia("(max-width: 767px)").matches);
+    };
+
+    updateDeviceMode();
+    window.addEventListener("resize", updateDeviceMode);
+
+    return () => window.removeEventListener("resize", updateDeviceMode);
+  }, []);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
@@ -73,7 +85,8 @@ export const AuroraHero = ({
       </div>
 
       <div className="absolute inset-0 z-0">
-        {typeof window !== "undefined" && (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(6,182,212,0.18),transparent_40%),radial-gradient(circle_at_20%_80%,rgba(34,211,238,0.12),transparent_30%),radial-gradient(circle_at_80%_20%,rgba(139,92,246,0.14),transparent_28%)]" />
+        {!isMobile && typeof window !== "undefined" && (
           <Canvas>
             <Stars radius={50} count={2500} factor={4} fade speed={2} />
           </Canvas>
