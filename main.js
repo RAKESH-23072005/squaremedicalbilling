@@ -34,11 +34,21 @@ $(function(){
     setTimeout(checkReveal, 50);
   }
 
-  // ===== PRELOADER SAFETY TIMEOUT =====
-  // Auto-hide preloader after 3s max, in case window.load never fires (BFCache)
-  var preloaderSafetyTimer = setTimeout(function() {
+  // ===== SMART PRELOADER =====
+  // Skip preloader entirely for internal navigation (user already on the site)
+  // Only show preloader on first visit / external entry
+  var isInternalNav = document.referrer && document.referrer.indexOf(window.location.hostname) !== -1;
+
+  if (isInternalNav) {
+    // Internal navigation — hide preloader immediately, no waiting
     hidePreloader();
-  }, 3000);
+  } else {
+    // First visit / external entry — hide preloader on DOM ready + short delay
+    // (NOT window.load, which waits for all 3.3MB of images)
+    setTimeout(function() {
+      hidePreloader();
+    }, 300);
+  }
 
   // ===== TOAST NOTIFICATION SYSTEM =====
   function showToast(message, type, duration) {
@@ -226,10 +236,10 @@ $(function(){
     $('details').not(this).removeAttr('open');
   });
 
-  // ===== PRELOADER =====
+  // ===== PAGE LOAD — trigger reveal animations =====
   $(window).on('load', function() {
-    clearTimeout(preloaderSafetyTimer);
-    hidePreloader();
+    // Preloader is already handled above on DOM ready.
+    // This just ensures reveals fire for any elements loaded late.
     setTimeout(checkReveal, 200);
   });
 
